@@ -1,0 +1,56 @@
+@import "tailwindcss";
+@plugin './hero.ts';
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Переопределяем primary цвета Hero UI */
+  --heroui-primary: #f97316; /* основной оранжевый */
+  --heroui-primary-50: #fff7ed; /* очень светлый оранжевый */
+  --heroui-primary-100: #ffedd5; /* светлый оранжевый */
+  --heroui-primary-200: #fed7aa; /* светло-оранжевый */
+  --heroui-primary-300: #fdba74; /* средний оранжевый */
+  --heroui-primary-400: #fb923c; /* яркий оранжевый */
+  --heroui-primary-500: #f97316; /* основной оранжевый */
+  --heroui-primary-600: #ea580c; /* темный оранжевый */
+  --heroui-primary-700: #c2410c; /* очень темный оранжевый */
+  --heroui-primary-800: #9a3412; /* глубокий оранжевый */
+  --heroui-primary-900: #7c2d12; /* самый темный оранжевый */
+  --heroui-primary-foreground: #ffffff; /* белый текст на оранжевом */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Переопределяем в теме Tailwind */
+  --color-primary: var(--heroui-primary);
+  --color-primary-50: var(--heroui-primary-50);
+  --color-primary-100: var(--heroui-primary-100);
+  --color-primary-200: var(--heroui-primary-200);
+  --color-primary-300: var(--heroui-primary-300);
+  --color-primary-400: var(--heroui-primary-400);
+  --color-primary-500: var(--heroui-primary-500);
+  --color-primary-600: var(--heroui-primary-600);
+  --color-primary-700: var(--heroui-primary-700);
+  --color-primary-800: var(--heroui-primary-800);
+  --color-primary-900: var(--heroui-primary-900);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
