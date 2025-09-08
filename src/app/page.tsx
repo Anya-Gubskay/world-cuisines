@@ -11,40 +11,88 @@ export default function Home() {
   const { isAuth } = useAuthStore();
 
   return (
-    <>
-      {isAuth && (
-        <div className="flex items-center justify-center w-full mb-4">
-          <Link href="/recipes/new">
-            <Button className="text-white" color="primary">
-              Добавить рецепт
-            </Button>
-          </Link>
+    <div className="container min-h-screen p-4 mx-auto">
+      {isAuth &&
+        !!recipes.length &&(
+          <div className="flex items-center justify-center w-full mb-8">
+            <Link href="/recipes/new">
+              <Button
+                className="text-white"
+                color="primary"
+                size="lg"
+                startContent={
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                }
+              >
+                Добавить рецепт
+              </Button>
+            </Link>
+          </div>
+        )}
+
+      {error && (
+        <div className="py-16 text-center">
+          <p className="mb-4 text-lg text-red-500">{error}</p>
+          <Button color="primary" onPress={() => window.location.reload()}>
+            Попробовать снова
+          </Button>
         </div>
       )}
 
-      {error && (
-        <p className="absolute mb-4 text-red-500 top-1/2">
-          {error}
-        </p>
+      {isLoading && (
+        <div className="flex items-center justify-center py-16">
+          <Spinner
+            variant="gradient"
+            color="primary"
+            size="lg"
+            label="Загрузка рецептов..."
+          />
+        </div>
       )}
 
-      {isLoading && (
-        <Spinner
-          variant="gradient"
-          color="primary"
-          className="absolute top-1/2"
-        />
+      {!isLoading && !error && recipes.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-16 space-y-6">
+          {isAuth && (
+            <Link href="/recipes/new">
+              <Button
+                color="primary"
+                className="px-8 py-6 text-lg text-white"
+                size="lg"
+              >
+                Создать первый рецепт
+              </Button>
+            </Link>
+          )}
+
+          <p className="text-xl text-center text-gray-500">
+            {isAuth
+              ? "Начните создавать кулинарную коллекцию"
+              : "Рецепты пока не добавлены"}
+          </p>
+        </div>
       )}
-      {!recipes.length && (
-        <p className="absolute mb-4 top-1/2 text-primary">
-          Список рецептов пуст
-        </p>
+
+      {!isLoading && !error && recipes.length > 0 && (
+        <>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {recipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} />
+            ))}
+          </div>
+        </>
       )}
-      {!!recipes.length && (<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {recipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
-        ))}
-      </div>)}
-    </>
+    </div>
   );
 }

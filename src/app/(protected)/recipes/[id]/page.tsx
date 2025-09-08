@@ -21,7 +21,14 @@ const EditRecipePage = () => {
     }
   }, [recipes, id, error]);
 
-  if (isLoading) return <Spinner variant="gradient" color="warning" />;
+  if (isLoading)
+    return (
+      <Spinner
+        className="absolute top-1/2"
+        variant="gradient"
+        color="warning"
+      />
+    );
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   if (hasSearched && !recipe) {
@@ -38,8 +45,6 @@ const EditRecipePage = () => {
       </div>
     );
   }
-
-  return <Spinner color="primary" variant="gradient" />;
 };
 
 export default EditRecipePage;
