@@ -32,7 +32,7 @@ const IngredientsTable = () => {
       try {
         await removeIngredient(id);
         toast("Ингредиент удален", { toastType: "success" });
-      } catch  {
+      } catch {
         toast("Ошибка при удалении", { toastType: "danger" });
       }
     }
@@ -158,11 +158,7 @@ const IngredientsTable = () => {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <Chip
-                      size="sm"
-                      variant="flat"
-                      className="capitalize"
-                    >
+                    <Chip size="sm" variant="flat" className="capitalize">
                       {getCategoryLabel(ingredient.category)}
                     </Chip>
                   </TableCell>
@@ -222,7 +218,6 @@ const IngredientsTable = () => {
         </Card>
       )}
 
-      {/* Статистика */}
       {filteredIngredients.length > 0 && (
         <div className="flex flex-wrap gap-4 text-sm text-gray-600">
           <span>
