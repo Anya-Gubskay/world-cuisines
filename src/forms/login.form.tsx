@@ -45,7 +45,7 @@ const LoginForm = ({ onClose }: IProps) => {
         });
         window.location.reload();
       }
-    } catch (error) {
+    } catch  {
       toast("Неизвестная ошибка!", {
         toastType: "danger",
         description: "Попробуйте еще раз позже",

@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "@/components/UI/layout/header";
 import { Providers } from "@/providers/provider";
 import { siteConfig } from "@/config/site.config";
-import { LayoutConfig } from "@/config/layout.config";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth/auth";
 import AppLoader from "@/hoc/app.loader";

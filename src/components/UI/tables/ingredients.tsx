@@ -32,7 +32,7 @@ const IngredientsTable = () => {
       try {
         await removeIngredient(id);
         toast("Ингредиент удален", { toastType: "success" });
-      } catch (error) {
+      } catch  {
         toast("Ошибка при удалении", { toastType: "danger" });
       }
     }
@@ -41,18 +41,6 @@ const IngredientsTable = () => {
   const getCategoryLabel = (value: string) => {
     const option = CATEGORY_OPTIONS.find((opt) => opt.value === value);
     return option ? option.label : value;
-  };
-
-  const getCategoryColor = (value: string) => {
-    const colors: { [key: string]: string } = {
-      VEGETABLES: "success",
-      FRUITS: "warning",
-      MEAT: "danger",
-      DAIRY: "primary",
-      GRAINS: "secondary",
-      SPICES: "default",
-    };
-    return colors[value] || "default";
   };
 
   const filteredIngredients = ingredients.filter((ingredient) =>

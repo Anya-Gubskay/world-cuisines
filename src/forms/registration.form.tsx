@@ -41,7 +41,7 @@ const RegistrationForm = ({ onClose }: IProps) => {
         });
         onClose();
       }
-    } catch (error) {
+    } catch {
       toast("Неизвестная ошибка!", {
         toastType: "danger",
         description: "Попробуйте еще раз позже",

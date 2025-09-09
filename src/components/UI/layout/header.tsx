@@ -120,7 +120,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <div className="items-center hidden gap-2 lg:flex">
               <Avatar
-                name={session?.user?.email!}
+                name={session?.user?.email || "User"}
                 size="sm"
                 className="font-bold text-white bg-gradient-to-r from-orange-500 to-red-500"
                 getInitials={getUserInitials}
