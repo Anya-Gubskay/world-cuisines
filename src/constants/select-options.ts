@@ -1,3 +1,5 @@
+import { UnitOption } from "@/types/unit";
+
 export const CATEGORY_OPTIONS = [
   { value: "VEGETABLES", label: "Овощи" },
   { value: "FRUITS", label: "Фрукты" },
@@ -7,7 +9,7 @@ export const CATEGORY_OPTIONS = [
   { value: "OTHER", label: "Другое" },
 ] as const;
 
-export const UNIT_OPTIONS = [
+export const UNIT_OPTIONS: UnitOption[] = [
   { value: "GRAMS", label: "Граммы" },
   { value: "KILOGRAMS", label: "Килограммы" },
   { value: "LITERS", label: "Литры" },
@@ -15,7 +17,7 @@ export const UNIT_OPTIONS = [
   { value: "PIECES", label: "Штуки" },
 ] as const;
 
-export const UNIT_ABBREVIATIONS = [
+export const UNIT_ABBREVIATIONS: UnitOption[] = [
   { value: "GRAMS", label: "г" },
   { value: "KILOGRAMS", label: "кг" },
   { value: "LITERS", label: "л" },

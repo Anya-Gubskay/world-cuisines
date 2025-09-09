@@ -3,23 +3,24 @@
 @source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
 
-  /* Переопределяем primary цвета Hero UI */
-  --heroui-primary: #f97316; /* основной оранжевый */
-  --heroui-primary-50: #fff7ed; /* очень светлый оранжевый */
-  --heroui-primary-100: #ffedd5; /* светлый оранжевый */
-  --heroui-primary-200: #fed7aa; /* светло-оранжевый */
-  --heroui-primary-300: #fdba74; /* средний оранжевый */
-  --heroui-primary-400: #fb923c; /* яркий оранжевый */
-  --heroui-primary-500: #f97316; /* основной оранжевый */
-  --heroui-primary-600: #ea580c; /* темный оранжевый */
-  --heroui-primary-700: #c2410c; /* очень темный оранжевый */
-  --heroui-primary-800: #9a3412; /* глубокий оранжевый */
-  --heroui-primary-900: #7c2d12; /* самый темный оранжевый */
-  --heroui-primary-foreground: #ffffff; /* белый текст на оранжевом */
+    /* Переопределяем primary цвета Hero UI */
+    --heroui-primary: #F97316;         /* основной оранжевый */
+    --heroui-primary-50: #fff7ed;      /* очень светлый оранжевый */
+    --heroui-primary-100: #ffedd5;     /* светлый оранжевый */
+    --heroui-primary-200: #fed7aa;     /* светло-оранжевый */
+    --heroui-primary-300: #fdba74;     /* средний оранжевый */
+    --heroui-primary-400: #fb923c;     /* яркий оранжевый */
+    --heroui-primary-500: #f97316;     /* основной оранжевый */
+    --heroui-primary-600: #ea580c;     /* темный оранжевый */
+    --heroui-primary-700: #c2410c;     /* очень темный оранжевый */
+    --heroui-primary-800: #9a3412;     /* глубокий оранжевый */
+    --heroui-primary-900: #7c2d12;     /* самый темный оранжевый */
+    --heroui-primary-foreground: #ffffff; /* белый текст на оранжевом */
 }
 
 @theme inline {
@@ -27,7 +28,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-
+  
   /* Переопределяем в теме Tailwind */
   --color-primary: var(--heroui-primary);
   --color-primary-50: var(--heroui-primary-50);

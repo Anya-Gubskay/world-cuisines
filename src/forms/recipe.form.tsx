@@ -7,6 +7,8 @@ import { useRecipeStore } from "@/store/recipe.store";
 import { IRecipe } from "@/types/recipe";
 import { useRouter } from "next/navigation";
 import { useHeroToast } from "@/hooks/use-hero-toast";
+import { UNIT_ABBREVIATIONS } from "@/constants/select-options";
+import { getUnitLabel } from "@/utils/unit";
 
 interface RecipeFormProps {
   initialRecipe?: IRecipe;
@@ -26,7 +28,6 @@ const initialState = {
 
 const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
   const [error, setError] = useState<string | null>(null);
-
   const [formData, setFormData] = useState({
     name: initialRecipe?.name || initialState.name,
     description: initialRecipe?.description || initialState.description,
@@ -47,8 +48,12 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
   const { addRecipe, updateRecipe } = useRecipeStore();
   const [isPending, startTransition] = useTransition();
   const { toast } = useHeroToast();
-
   const router = useRouter();
+
+  const getIngredientUnit = (ingredientId: string) => {
+    const ingredient = ingredients.find((ing) => ing.id === ingredientId);
+    return ingredient?.unit || "";
+  };
 
   const handleAddIngredientField = () => {
     if (ingredientFields.length < 10) {
@@ -90,7 +95,6 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
             : "Рецепт успешно добавлен!",
           {
             toastType: "success",
-            description: "",
           }
         );
         setIngredientFields([{ id: 0, ingredientId: "", quantity: null }]);
@@ -98,12 +102,12 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
         setFormData(initialState);
       } else {
         toast(
-          initialRecipe
-            ? "Ошибка при добавлении рецепта!"
-            : "Ошибка при редактировании рецепта!",
+          result.error ||
+            (initialRecipe
+              ? "Ошибка при редактировании рецепта!"
+              : "Ошибка при добавлении рецепта!"),
           {
-            toastType: "success",
-            description: "",
+            toastType: "danger",
           }
         );
         setError(result.error || "Ошибка при сохранении рецепта");
@@ -112,7 +116,7 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
   };
 
   return (
-    <Form className="w-full space-y-6" action={handleSubmit}>
+    <Form className="w-[600px] space-y-6" action={handleSubmit}>
       {error && <p className="mb-4 text-red-500">{error}</p>}
 
       <Input
@@ -124,11 +128,8 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
         classNames={{
           inputWrapper: "bg-default-100",
           input: "text-sm focus:outline-none",
-          helperWrapper: "!p-0 !m-0 !min-h-0",
-          errorMessage: "absolute top-full mt-1 ml-1",
         }}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        validate={(value) => (!value ? "Название обязательно" : null)}
       />
 
       <Input
@@ -139,12 +140,12 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
         classNames={{
           inputWrapper: "bg-default-100",
           input: "text-sm focus:outline-none",
-          helperWrapper: "!p-0 !m-0 !min-h-0",
         }}
         onChange={(e) =>
           setFormData({ ...formData, description: e.target.value })
         }
       />
+
       <Input
         name="imageUrl"
         placeholder="URL изображения (необязательно)"
@@ -153,89 +154,145 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
         classNames={{
           inputWrapper: "bg-default-100",
           input: "text-sm focus:outline-none",
-          helperWrapper: "!p-0 !m-0 !min-h-0",
         }}
         onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
       />
 
-      <div className="w-[700px] space-y-6">
-        {ingredientFields.map((field, index) => (
-          <div key={field.id} className="flex items-center gap-2">
-            <Select
-              isRequired
-              name={`ingredient_${index}`}
-              placeholder="Выберите ингредиент"
-              selectedKeys={field.ingredientId ? [field.ingredientId] : []}
-              classNames={{
-                trigger: "bg-default-100 w-[400px]",
-                innerWrapper: "text-sm relative",
-                value: "truncate",
-                selectorIcon: "text-black",
-                helperWrapper: "!p-0 !m-0 !min-h-0",
-                errorMessage: "opacity-0 h-0",
-              }}
-              onChange={(e) =>
-                handleIngredientChange(field.id, "ingredientId", e.target.value)
-              }
+      <div className="w-full space-y-4">
+        <h3 className="text-lg font-semibold">Ингредиенты:</h3>
+
+        {ingredientFields.map((field, index) => {
+          const selectedUnit = getUnitLabel(
+            getIngredientUnit(field.ingredientId),
+            UNIT_ABBREVIATIONS
+          );
+
+          return (
+            <div
+              key={field.id}
+              className="flex items-end gap-3 p-4 rounded-lg bg-gray-50"
             >
-              {ingredients.map((ingredient) => (
-                <SelectItem key={ingredient.id} className="text-black">
-                  {ingredient.name}
-                </SelectItem>
-              ))}
-            </Select>
-            <Input
-              isRequired
-              name={`quantity_${index}`}
-              placeholder="Количество"
-              type="number"
-              value={field.quantity !== null ? field.quantity.toString() : ""}
-              classNames={{
-                inputWrapper: "bg-default-100 w-full relative",
-                input: "text-sm focus:outline-none",
-                helperWrapper: "!p-0 !m-0 !min-h-0",
-                errorMessage: "absolute top-full mt-1 ml-1",
-              }}
-              className="w-[600px]"
-              onChange={(e) =>
-                handleIngredientChange(
-                  field.id,
-                  "quantity",
-                  e.target.value ? parseFloat(e.target.value) : null
-                )
-              }
-              validate={(value) =>
-                !value || parseFloat(value) <= 0
-                  ? "Количество должно быть больше 0"
-                  : null
-              }
-            />
-            {ingredientFields.length > 1 && (
-              <Button
-                color="danger"
-                variant="light"
-                onPress={() => handleRemoveIngredientField(field.id)}
-                className="w-[50px] border-1"
-              >
-                удалить
-              </Button>
-            )}
-          </div>
-        ))}
+              <div className="flex-1">
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Ингредиент {index + 1}
+                </label>
+                <Select
+                  isRequired
+                  name={`ingredient_${index}`}
+                  placeholder="Выберите ингредиент"
+                  selectedKeys={field.ingredientId ? [field.ingredientId] : []}
+                  classNames={{
+                    trigger: "bg-white w-full",
+                  }}
+                  onChange={(e) =>
+                    handleIngredientChange(
+                      field.id,
+                      "ingredientId",
+                      e.target.value
+                    )
+                  }
+                >
+                  {ingredients.map((ingredient) => (
+                    <SelectItem key={ingredient.id} textValue={ingredient.name}>
+                      {ingredient.name} (
+                      {getUnitLabel(ingredient.unit, UNIT_ABBREVIATIONS)})
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+
+              <div className="flex-1">
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Количество
+                </label>
+                <div className="relative">
+                  <Input
+                    isRequired
+                    name={`quantity_${index}`}
+                    placeholder="0"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={
+                      field.quantity !== null ? field.quantity.toString() : ""
+                    }
+                    classNames={{
+                      inputWrapper: "bg-white pr-20",
+                      input: "text-sm",
+                    }}
+                    onChange={(e) =>
+                      handleIngredientChange(
+                        field.id,
+                        "quantity",
+                        e.target.value ? parseFloat(e.target.value) : null
+                      )
+                    }
+                  />
+
+                  {field.ingredientId && (
+                    <span className="absolute px-2 py-1 text-sm font-medium text-gray-500 transform -translate-y-1/2 bg-gray-100 rounded right-3 top-1/2">
+                      {selectedUnit}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {ingredientFields.length > 1 && (
+                <Button
+                  color="danger"
+                  variant="flat"
+                  size="sm"
+                  onPress={() => handleRemoveIngredientField(field.id)}
+                  className="mb-1"
+                  isIconOnly
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </Button>
+              )}
+            </div>
+          );
+        })}
 
         {ingredientFields.length < 10 && (
           <Button
-            color="success"
-            className="text-white"
+            color="primary"
+            variant="flat"
             onPress={handleAddIngredientField}
+            startContent={
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            }
           >
-            Добавить
+            Добавить ингредиент
           </Button>
         )}
       </div>
 
-      <div className="flex items-center justify-end w-full mt-4 text-white">
-        <Button color="primary" type="submit" isLoading={isPending}>
+      <div className="flex items-center justify-end w-full mt-8 text-white">
+        <Button color="primary" type="submit" isLoading={isPending} size="lg">
           {initialRecipe ? "Сохранить изменения" : "Добавить рецепт"}
         </Button>
       </div>

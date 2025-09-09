@@ -9,6 +9,7 @@ import Image from "next/image";
 import { UNIT_ABBREVIATIONS } from "@/constants/select-options";
 import { useAuthStore } from "@/store/auth.store";
 import { useHeroToast } from "@/hooks/use-hero-toast";
+import { getUnitLabel } from "@/utils/unit";
 
 interface RecipeCardProps {
   recipe: IRecipe;
@@ -36,13 +37,6 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
         console.error("Ошибка при удалении рецепта:", error);
       }
     });
-  };
-
-  const getUnitLabel = (unit: string) => {
-    const unitOption = UNIT_ABBREVIATIONS.find(
-      (option) => option.value === unit
-    );
-    return unitOption ? unitOption.label : unit.toLowerCase();
   };
 
   return (
@@ -77,27 +71,68 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
           {recipe.ingredients.map((ing) => (
             <li key={ing.id}>
               {ing.ingredient.name}: {ing.quantity}{" "}
-              {getUnitLabel(ing.ingredient.unit)}
+              {getUnitLabel(ing.ingredient.unit, UNIT_ABBREVIATIONS)}
             </li>
           ))}
         </ul>
       </CardBody>
 
       {isAuth && (
-        <div className="flex justify-end gap-2 p-4">
-          <Link href={`/recipes/${recipe.id}`}>
-            <Button color="primary" variant="light">
-              Редактировать
+        <div className="px-4 pt-2 pb-4 mt-auto">
+          <div className="flex items-center justify-between gap-2">
+            <Link href={`/recipes/${recipe.id}`} className="flex-1">
+              <Button
+                color="primary"
+                variant="solid"
+                size="sm"
+                className="text-white "
+                startContent={
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                }
+              >
+                Редактировать
+              </Button>
+            </Link>
+            <Button
+              color="danger"
+              variant="flat"
+              size="sm"
+              onPress={handleDelete}
+              isLoading={isPending}
+              className="min-w-20"
+              startContent={
+                !isPending && (
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                )
+              }
+            >
+              {isPending ? "Удаление..." : "Удалить"}
             </Button>
-          </Link>
-          <Button
-            color="danger"
-            variant="light"
-            onPress={handleDelete}
-            isLoading={isPending}
-          >
-            Удалить
-          </Button>
+          </div>
         </div>
       )}
     </Card>
