@@ -1,37 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 Кухни мира
 
-## Getting Started
+Веб-приложение для добавления и просмотра рецептов со всего мира.  
+Сделано на [Next.js](https://nextjs.org/) с использованием базы данных [Prisma](https://www.prisma.io/).  
+Задеплоено на [Vercel](https://vercel.com/).
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Функционал
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Добавление собственных рецептов.
+- Возможность добавлять новые ингредиенты, если их нет в базе.
+- Загрузка картинок рецептов (поддерживаются ссылки только с [eda.ru](https://eda.ru/)).
+- Авторизация и регистрация пользователей.
+- Тестовые креды для входа:
+  - **Email:** `user007@gmail.com`
+  - **Пароль:** `user007`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Технологии
 
-## Learn More
+- [Next.js](https://nextjs.org/) – фронтенд и серверная логика.
+- [Prisma](https://www.prisma.io/) – ORM для работы с базой данных.
+- [Vercel](https://vercel.com/) – хостинг и деплой.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📦 Установка и запуск
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Клонируй репозиторий:
 
-## Deploy on Vercel
+   ```bash
+   git clone https://github.com/your-username/world-cuisines.git
+   cd world-cuisines
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Установи зависимости:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# world-cuisines
+   ```bash
+   npm install
+   ```
+
+3. Запусти dev-сервер:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Открой в браузере [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🌐 Деплой
+
+Приложение доступно онлайн: [Кухни мира](https://your-vercel-app-link.vercel.app)  
+
+---
+
+## 📚 Полезные ссылки
+
+- [Next.js Documentation](https://nextjs.org/docs)  
+- [Prisma Documentation](https://www.prisma.io/docs)  
+- [Vercel Deployment Docs](https://nextjs.org/docs/app/building-your-application/deploying)  
+
+---
+
+✨ Приложение создано для того, чтобы объединять лучшие кулинарные традиции со всего мира в одном месте!
