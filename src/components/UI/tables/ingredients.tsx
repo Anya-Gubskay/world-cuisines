@@ -27,16 +27,17 @@ import {
 } from "@heroui/react";
 import { useState } from "react";
 import { useHeroToast } from "@/hooks/use-hero-toast";
+import { IIngredient } from "@/types/ingredient";
 
 const IngredientsTable = () => {
   const { ingredients, removeIngredient, isLoading } = useIngredientStore();
   const { isAuth } = useAuthStore();
   const { toast } = useHeroToast();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedIngredient, setSelectedIngredient] = useState<any>(null);
+  const [selectedIngredient, setSelectedIngredient] = useState<IIngredient | null>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const handleDeleteClick = (ingredient: any) => {
+  const handleDeleteClick = (ingredient: IIngredient) => {
     setSelectedIngredient(ingredient);
     onOpen();
   };
@@ -185,7 +186,6 @@ const IngredientsTable = () => {
                       </div>
                     </div>
 
-                    {/* Описание */}
                     {ingredient.description && (
                       <>
                         <Divider />

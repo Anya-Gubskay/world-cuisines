@@ -131,7 +131,7 @@ export default function Header() {
         onMenuOpenChange={setIsMenuOpen}
         maxWidth="full"
       >
-        {/* Мобильное меню toggle */}
+  
         <NavbarContent className="md:hidden" justify="start">
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
