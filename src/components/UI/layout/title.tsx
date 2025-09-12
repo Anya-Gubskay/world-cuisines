@@ -11,9 +11,12 @@ const Title = () => {
   );
 
   const pageTitle = currentNavItem ? currentNavItem.label : "";
+
   return (
-    <div className="flex justify-center w-full my-8">
-      <h1 className="text-3xl font-bold">{pageTitle}</h1>
+    <div className="flex justify-center w-full my-4 sm:my-6 md:my-8">
+      <h1 className="px-4 text-xl font-bold text-center sm:text-2xl md:text-3xl">
+        {pageTitle}
+      </h1>
     </div>
   );
 };

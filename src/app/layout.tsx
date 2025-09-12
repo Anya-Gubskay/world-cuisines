@@ -31,24 +31,21 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en">
+    <html lang="ru" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <Providers>
           <SessionProvider session={session}>
             <AppLoader>
-              <div className="flex flex-col justify-between min-h-screen">
-                <div className="flex flex-col">
-                  <Header />
+              <div className="flex flex-col min-h-screen">
+                <Header />
 
-                  <main
-                    className={`flex flex-col items-center justify-start max-w-[1024px] mx-auto px-24px`}
-                  >
-                    <Title />
-                    {children}
-                  </main>
-                </div>
+                <main className="flex-1 flex flex-col w-full max-w-[1024px] mx-auto px-6 lg:px-8 py-6">
+                  <Title />
+                  <div className="flex-1">{children}</div>
+                </main>
+
               </div>
             </AppLoader>
           </SessionProvider>

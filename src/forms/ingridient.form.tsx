@@ -4,7 +4,7 @@ import { CATEGORY_OPTIONS, UNIT_OPTIONS } from "@/constants/select-options";
 import { useIngredientStore } from "@/store/ingredient.store";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
-import { Button, Select, SelectItem } from "@heroui/react";
+import { Button, Select, SelectItem, Card, CardBody } from "@heroui/react";
 import { useState, useTransition } from "react";
 
 const initialState = {
@@ -37,141 +37,143 @@ const IngridientForm = () => {
   };
 
   return (
-    <Form className="w-full" action={handleSubmit}>
-      {error && <p className="mb-4 text-red-500">{error}</p>}
+    <Card className="w-full shadow-sm">
+      <CardBody className="p-4 sm:p-6">
+        <h2 className="mb-4 text-lg font-semibold text-gray-800 sm:mb-6 sm:text-xl">
+          Добавить ингредиент
+        </h2>
 
-      <Input
-        isRequired
-        name="name"
-        placeholder="Введите название ингредиента"
-        type="text"
-        value={formData.name}
-        classNames={{
-          innerWrapper: "bg-default-100",
-          input: "text-sm focus:outline-none",
-          helperWrapper: "!p-0 !m-0 !min-h-0",
-          errorMessage: "absolute top-full mt-1 ml-1",
-        }}
-        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        validate={(value) => {
-          if (!value) return "Название обязателньо";
-          return null;
-        }}
-      />
+        <Form className="w-full space-y-4" action={handleSubmit}>
+          {error && (
+            <p className="p-2 text-sm text-red-500 rounded-md bg-red-50">
+              {error}
+            </p>
+          )}
 
-      <div className="flex w-full gap-2">
-        <div className="w-1/3">
-          <Select
-            isRequired
-            name="category"
-            placeholder="Категории"
-            selectedKeys={formData.category ? [formData.category] : []}
-            classNames={{
-              trigger: "bg-default-100 w-full",
-              innerWrapper: "bg-default-100",
-              value: "truncate",
-              selectorIcon: "text-black",
-              helperWrapper: "!p-0 !m-0 !min-h-0",
-              errorMessage: "absolute top-full mt-1 ml-1",
-            }}
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
-          >
-            {CATEGORY_OPTIONS.map((option) => (
-              <SelectItem key={option.value} className="text-black">
-                {option.label}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-        <div className="w-1/3">
-          <Select
-            isRequired
-            name="unit"
-            placeholder="Ед. изм."
-            selectedKeys={formData.unit ? [formData.unit] : []}
-            classNames={{
-              trigger: "bg-default-100 w-full",
-              innerWrapper: "text-sm",
-              value: "truncate",
-              selectorIcon: "text-black",
-              helperWrapper: "!p-0 !m-0 !min-h-0",
-              errorMessage: "absolute top-full mt-1 ml-1",
-            }}
-            onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-          >
-            {UNIT_OPTIONS.map((option) => (
-              <SelectItem key={option.value} className="text-black">
-                {option.label}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-        <div className="w-1/3">
           <Input
             isRequired
-            name="pricePerUnit"
-            placeholder="Цена"
-            type="number"
-            value={
-              formData.pricePerUnit !== null
-                ? formData.pricePerUnit.toString()
-                : ""
-            }
+            name="name"
+            placeholder="Название ингредиента"
+            type="text"
+            value={formData.name}
             classNames={{
-              innerWrapper: "bg-default-100",
-              input: "text-sm focus:outline-none",
-              helperWrapper: "!p-0 !m-0 !min-h-0",
-              errorMessage: "absolute top-full mt-1 ml-1",
+              inputWrapper: "bg-default-100 h-12",
+              input: "text-sm text-gray-800 placeholder:text-gray-500",
             }}
-            onChange={(e) => {
-              const value = e.target.value ? parseFloat(e.target.value) : null;
-              setFormData({ ...formData, pricePerUnit: value });
-            }}
-            endContent={
-              <span className="absolute transform -translate-y-1/2 pointer-events-none right-3 top-1/2 text-default-500">
-                руб.
-              </span>
-            }
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             validate={(value) => {
-              if (!value) return "Цена обязательна";
-              const num = parseFloat(value);
-              if (isNaN(num) || num < 0) {
-                return "Цена должна быть положительной";
-              }
+              if (!value) return "Название обязательно";
               return null;
             }}
           />
-        </div>
-      </div>
 
-      <Input
-        name="description"
-        placeholder="Введите описание (необязательно)"
-        type="text"
-        value={formData.description}
-        classNames={{
-          inputWrapper: "bg-default-100",
-          input: "text-sm focus:outline-none",
-          helperWrapper: "!p-0 !m-0 !min-h-0",
-          errorMessage: "absolute top-full mt-1 ml-1",
-        }}
-        onChange={(e) =>
-          setFormData({ ...formData, description: e.target.value })
-        }
-      />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
+            <Select
+              isRequired
+              name="category"
+              placeholder="Категория"
+              selectedKeys={formData.category ? [formData.category] : []}
+              classNames={{
+                trigger: "bg-default-100 h-12 data-[hover=true]:bg-default-200",
+                value: "text-sm text-gray-800 placeholder:text-gray-500",
+                selectorIcon: "text-gray-600",
+              }}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+            >
+              {CATEGORY_OPTIONS.map((option) => (
+                <SelectItem
+                  key={option.value}
+                  textValue={option.label}
+                  className="text-gray-800"
+                >
+                  {option.label}
+                </SelectItem>
+              ))}
+            </Select>
 
-      <div className="flex items-center justify-end w-full">
-        <Button
-          className="text-white bg-orange-400"
-          type="submit"
-          isLoading={isPending}
-        >
-          Добавить ингредиента
-        </Button>
-      </div>
-    </Form>
+            <Select
+              isRequired
+              name="unit"
+              placeholder="Ед. измерения"
+              selectedKeys={formData.unit ? [formData.unit] : []}
+              classNames={{
+                trigger: "bg-default-100 h-12 data-[hover=true]:bg-default-200",
+                value: "text-sm text-gray-800 placeholder:text-gray-500",
+                selectorIcon: "text-gray-600",
+              }}
+              onChange={(e) =>
+                setFormData({ ...formData, unit: e.target.value })
+              }
+            >
+              {UNIT_OPTIONS.map((option) => (
+                <SelectItem
+                  key={option.value}
+                  textValue={option.label}
+                  className="text-gray-800"
+                >
+                  {option.label}
+                </SelectItem>
+              ))}
+            </Select>
+            <Input
+              isRequired
+              name="pricePerUnit"
+              placeholder="Цена за единицу"
+              type="number"
+              step="0.01"
+              min="0"
+              value={formData.pricePerUnit?.toString() || ""}
+              classNames={{
+                inputWrapper:
+                  "bg-default-100 h-12 pr-12 data-[hover=true]:bg-default-200",
+                input: "text-sm text-gray-800 placeholder:text-gray-500",
+              }}
+              onChange={(e) => {
+                const value = e.target.value
+                  ? parseFloat(e.target.value)
+                  : null;
+                setFormData({ ...formData, pricePerUnit: value });
+              }}
+              endContent={<span className="text-sm text-gray-600">₽</span>}
+              validate={(value) => {
+                if (!value) return "Цена обязательна";
+                const num = parseFloat(value);
+                if (isNaN(num) || num < 0) {
+                  return "Цена должна быть положительной";
+                }
+                return null;
+              }}
+            />
+          </div>
+
+          <Input
+            name="description"
+            placeholder="Описание (необязательно)"
+            type="text"
+            value={formData.description}
+            classNames={{
+              inputWrapper:
+                "bg-default-100 h-12 data-[hover=true]:bg-default-200",
+              input: "text-sm text-gray-800 placeholder:text-gray-500",
+            }}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
+          />
+
+          <Button
+            className="w-full text-white bg-orange-500 hover:bg-orange-600"
+            type="submit"
+            isLoading={isPending}
+            size="lg"
+          >
+            Добавить ингредиент
+          </Button>
+        </Form>
+      </CardBody>
+    </Card>
   );
 };
 

@@ -24,7 +24,7 @@ const EditRecipePage = () => {
   if (isLoading)
     return (
       <Spinner
-        className="absolute top-1/2"
+        className="absolute left-1/2 top-1/2"
         variant="gradient"
         color="warning"
       />
@@ -38,7 +38,7 @@ const EditRecipePage = () => {
   if (recipe) {
     return (
       <div className="container p-4 mx-auto">
-        <h1 className="mb-4 text-3xl font-bold">
+        <h1 className="px-4 mb-4 text-2xl font-bold text-center sm:text-3xl sm:text-left sm:px-0">
           Редактировать рецепт: {recipe.name}
         </h1>
         <RecipeForm initialRecipe={recipe} />

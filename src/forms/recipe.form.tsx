@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Button, Form, Input, Select, SelectItem } from "@heroui/react";
+import { Button, Card, CardBody, Form, Input, Select, SelectItem } from "@heroui/react";
 import { useIngredientStore } from "@/store/ingredient.store";
 import { useRecipeStore } from "@/store/recipe.store";
 import { IRecipe } from "@/types/recipe";
@@ -116,7 +116,9 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
   };
 
   return (
-    <Form className="w-[600px] space-y-6" action={handleSubmit}>
+        <Card className="w-full shadow-sm">
+      <CardBody className="p-4 sm:p-6">
+    <Form className="space-y-6 " action={handleSubmit}>
       {error && <p className="mb-4 text-red-500">{error}</p>}
 
       <Input
@@ -159,7 +161,7 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
       />
 
       <div className="w-full space-y-4">
-        <h3 className="text-lg font-semibold">Ингредиенты:</h3>
+        <h3 className="text-lg text-black">Ингредиенты:</h3>
 
         {ingredientFields.map((field, index) => {
           const selectedUnit = getUnitLabel(
@@ -217,8 +219,8 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
                       field.quantity !== null ? field.quantity.toString() : ""
                     }
                     classNames={{
-                      inputWrapper: "bg-white pr-20",
-                      input: "text-sm",
+                      inputWrapper: "bg-white pr-14 sm:pr-16", 
+                      input: "text-sm pr-2",
                     }}
                     onChange={(e) =>
                       handleIngredientChange(
@@ -296,7 +298,9 @@ const RecipeForm = ({ initialRecipe }: RecipeFormProps) => {
           {initialRecipe ? "Сохранить изменения" : "Добавить рецепт"}
         </Button>
       </div>
-    </Form>
+        </Form>
+      </CardBody>
+      </Card>
   );
 };
 
